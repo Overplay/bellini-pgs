@@ -1,16 +1,9 @@
-# ASAHI: A Basically Working Sails Web App Using Waterlock
+# BELLINI-PGS: Program Guide Microservice
 
-Waterlock is a nice start towards handing authentication for a Sails.js app, but it still requires the user do a lot
-of work such as: policies, login pages, password reset pages, etc.
-
-Installation:
-
-1. Clone repo
-
-2. `cd` into folder then `npm install`
-
-3. There will be some "bowery" stuff to do, but we'll make a Grunt task for that later, for now just run `bower update`
-where needed.
+Bellini-PGS is based on the same core architecture as all Bellini Microservices:
+- Sails.js
+- Automagic grunting of files to `.tmp` is turned off. `assets` served directly.
+- Waterlock security based on Cole's fork
 
 
 Structure Notes

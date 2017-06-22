@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-lg-8">
+            <h1><i class="fa fa-paint-brush" aria-hidden="true"></i>&nbsp;Ad: <span style="color: #8a8a8a; font-style: italic;">{{ advertisement.name }}</span>
+            </h1>
+            <uib-tabset active="active" class="top30">
+                <uib-tab heading="More Info">
+                    <div class="top15">
+                        <!-- the ring should come from userAuthService, but you can't get here without being admin anyway -->
+                        <ad-edit advert="advertisement" ring="1"></ad-edit>
+                    </div>
+                </uib-tab>
+                <uib-tab heading="Stats">
+                    <ad-stats advert="advertisement" ring="1"></ad-stats>
+                </uib-tab>
+
+            </uib-tabset>
+
+
+        </div>
+    </div>
+</div>

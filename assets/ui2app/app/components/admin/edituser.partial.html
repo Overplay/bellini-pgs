@@ -1,0 +1,23 @@
+<div class="container">
+    <h1><i class="fa fa-user" aria-hidden="true" style="color: #999999"></i>&nbsp;&nbsp;Edit User: {{ user.firstName }}
+        {{ user.lastName }}</h1>
+    <div class="row">
+        <div class="col-md-8 col-lg-8">
+            <!--<a class="btn btn-primary top15" ui-sref="{{ admin ? 'user.adminList' : 'user.managerList' }}">Back to-->
+            <!--Users</a>-->
+            <uib-tabset class="top30">
+                <!-- Basic Account Into -->
+                <uib-tab heading="Basic Account Info">
+                    <user-basic-info class="top15" user="user"></user-basic-info>
+                </uib-tab>
+                <uib-tab heading="Permissions and Password">
+                    <user-auth user="user" ring="1"></user-auth>
+                </uib-tab>
+                <!-- VENUES -->
+                <uib-tab heading="Venues">
+                    <user-venues user="user" venues="venues" ring="1"></user-venues>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>

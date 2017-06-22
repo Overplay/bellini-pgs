@@ -1,0 +1,7 @@
+.ibut {
+  padding: 5px;
+  background-color: #46aeae;
+  color: white;
+  border-radius: 3px; }
+  .ibut:hover {
+    background-color: #378a8a; }

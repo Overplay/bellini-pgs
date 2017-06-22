@@ -1,0 +1,34 @@
+{
+  "name": "Nucleus Assets",
+  "homepage": "https://github.com/Overplay/asahi",
+  "authors": [
+    "Mitch Kahn <mitch@appdelegates.com>"
+  ],
+  "description": "Shared by all templates",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "*",
+    "angular-animate": "*",
+    "angular-aria": "*",
+    "angular-messages": "*",
+    "angular-ui-router": "*",
+    "angular-bootstrap": "*",
+    "angular-toastr": "*",
+    "lodash": "*",
+    "angular-google-maps": "*",
+    "file-saver": "*",
+    "angular-chart.js": "*",
+    "moment": "*",
+    "angular-google-chart": "1.0.0-beta.1"
+  }
+}

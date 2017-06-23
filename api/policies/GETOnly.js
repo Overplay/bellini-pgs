@@ -9,8 +9,7 @@
 
 module.exports = function ( req, res, next ) {
 
-
-    if ( req.method == 'GET' )
+    if ( req.method === 'GET' )
         return next()
 
     return res.badRequest({error: "Bad Verb [1]"});

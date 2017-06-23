@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="blogApp">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Libraries -->
+    <script src="/bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="/bower_components/angular/angular.min.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="/bower_components/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
+
+    <!-- Our own code -->
+    <script src="app/blogapp.module.js"></script>
+    <script src="app/blogapp.routes.js"></script>
+    <script src="app/components/latest/latestblogs.controller.js"></script>
+    <script src="app/components/newpost/newpost.controller.js"></script>
+
+
+    <title>Mitch's Super Cool Blog App</title>
+    <link href="/css/bootstrap.yeti.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/bower_components/angular-toastr/dist/angular-toastr.min.css"/>
+    <link href="my.css" rel="stylesheet"/>
+</head>
+
+<body>
+<div class="mitchbar">
+    <h3>Super Blog Fun
+        <a ui-sref="latestblogs" class="btn btn-sm btn-primary pull-right">Latest Blogs</a>
+        <a ui-sref="newpost" class="btn btn-sm btn-primary pull-right">Add a Post</a></h3>
+
+</div>
+<div class="container" style="padding-top: 65px;">
+   <ui-view></ui-view>
+</div>
+
+</body>
+</html>

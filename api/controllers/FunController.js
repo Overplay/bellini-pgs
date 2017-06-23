@@ -17,7 +17,26 @@
 module.exports = {
 
     fun: function(req, res){
-        res.ok("Well, that was fun!");
+
+        switch (req.method){
+
+            case 'GET':
+                return res.ok( "Well, that was fun!" );
+                break;
+
+            case 'DELETE':
+                return res.ok( "Don't delete my fun" );
+                break;
+
+            case 'POST':
+                return res.ok( "Posting up some fun" );
+                break;
+
+            default:
+                return res.badRequest({ error: 'bugger off'});
+
+        }
+
     },
 
     nofun: function(req, res){

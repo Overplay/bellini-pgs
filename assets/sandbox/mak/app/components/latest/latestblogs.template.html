@@ -1,0 +1,10 @@
+<h2>Latest Blogs</h2>
+
+<h3>There are {{ blogPosts.length }} posts in the database.</h3>
+
+<div class="card" ng-repeat="post in blogPosts">
+    <h4>{{ post.title }}</h4>
+    <p>{{  post.post }}</p>
+    <p><i>{{ post.createdAt | date }}</i></p>
+    <button class="btn btn-danger" ng-click="deletePost(post.id)">DELETE</button>
+</div>

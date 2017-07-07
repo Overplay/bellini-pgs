@@ -1,0 +1,48 @@
+<h2>Please fill in the following information:</h2>
+<br>
+<div class="form-group">
+  <label for="carrier">Carrier:</label>
+    <select id="carrier" ng-model="post.carrier">
+    <option>Direct TV AT&T</option>
+    <option>Comcast</option>
+    <option>Dish</option></select><br><br /></div>
+
+<div class="form-group">
+  <label for="channelNumber">Channel Number:</label>
+  <input type="text" class="form-control" id="channelNumber" ng-model="post.channelNumber" placeholder="Channel Number">
+</div>
+
+<div class="form-group">
+  <label for="network">Network:</label>
+  <input type="text" class="form-control" id="network" ng-model="post.network" placeholder="Network">
+</div>
+
+<div class="form-group">
+  <label for="lineupID">Lineup ID:</label>
+  <input type="text" class="form-control" id="lineupID" ng-model="post.lineupID" placeholder="Lineup ID">
+</div>
+
+<div class="form-group">
+  <label for="programID">Program ID:</label>
+  <input type="text" class="form-control" id="programID" ng-model="post.programID" placeholder="Program ID">
+</div>
+
+<div class="form-group">
+  <label for="postalCode">Postal Code:</label>
+  <input type="text" class="form-control" id="postalCode" ng-model="post.postalCode" placeholder="Postal Code">
+</div>
+
+    <div id="location">
+      <label for="location"> Location of Important Information: </label><br>
+      <input type="checkbox" ng-model="post.location.top"> Top<br>
+      <input type="checkbox" ng-model="post.location.bottom"> Bottom<br>
+      <input type="checkbox" ng-model="post.location.topLeft"> Top Left<br>
+      <input type="checkbox" ng-model="post.location.bottomLeft"> Bottom Left<br>
+      <input type="checkbox" ng-model="post.location.topRight"> Top Right<br>
+      <input type="checkbox" ng-model="post.location.bottomRight"> Bottom Right<br><br />
+    </div>
+
+<button class="btn btn-primary" style="margin-top: 10px; width: 100%;" ng-click="postThisPost()">POST</button>
+<br> </br>
+
+

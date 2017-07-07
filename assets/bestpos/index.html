@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="bestPosApp">
+<head>
+  <meta charset="UTF-8">
+
+  <!-- Libraries -->
+  <script src="/bower_components/lodash/dist/lodash.min.js"></script>
+  <script src="/bower_components/angular/angular.min.js"></script>
+  <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
+  <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script src="/bower_components/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
+
+  <!-- Our own code -->
+  <script src="app/locationform.module.js"></script>
+  <script src="app/locationform.routes.js"></script>
+  <script src="app/components/home/home.controller.js"></script>
+  <script src="app/components/newpost/newpost.controller.js"></script>
+  <script src="app/components/responses/responses.controller.js"></script>
+
+
+  <title>The Important Information Overlay Form</title>
+  <link href="/css/bootstrap.sandstone.css" rel="stylesheet"/>
+  <!--<link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>-->
+
+  <link rel="stylesheet" href="/bower_components/angular-toastr/dist/angular-toastr.min.css"/>
+  <link href="locationform.css" rel="stylesheet"/>
+</head>
+
+<body>
+<div class="importantinfo">
+  <h3 style="margin-left: 10px!important;"> Best Location Application Station
+    <a style="margin-right: 5px;" ui-sref="responses" class="btn btn-sm btn-primary pull-right">Latest Submissions</a>
+    <a style="margin-right: 5px;" ui-sref="newpost" class="btn btn-sm btn-primary pull-right">Add a Post</a></h3>
+
+</div>
+<div class="container" style="padding-top: 65px;">
+  <ui-view></ui-view>
+</div>
+
+</body>
+</html>

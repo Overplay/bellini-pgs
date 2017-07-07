@@ -1,0 +1,15 @@
+<h2>Latest Form Submissions</h2>
+
+<h3>There are {{ responsepost.length }} posts in the database.</h3>
+
+<div class="card" ng-repeat="post in responsepost">
+  <p><b>Carrier:</b> {{  post.carrier }}</p>
+  <p><b>Channel Number:</b> {{  post.channelNumber }}</p>
+  <p><b>Network:</b> {{  post.network }}</p>
+  <p><b>Lineup ID:</b> {{  post.lineupID }}</p>
+  <p><b>Program ID:</b> {{  post.programID }}</p>
+  <p><b>Postal Code:</b> {{  post.postalCode }}</p>
+  <p><b>Location:</b> {{ post.location }}</p>
+  <p><i>{{ post.createdAt | date }}</i></p>
+  <button class="btn btn-danger" ng-click="deletePost(post.id)">DELETE</button>
+</div>

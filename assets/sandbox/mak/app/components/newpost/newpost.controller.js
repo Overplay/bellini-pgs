@@ -26,7 +26,7 @@ app.controller('newPostController', function($scope, $log, $http, toastr, $state
                 })
 
         } else {
-            toastr.error("How about using all the fields, genius?");
+            toastr.error("Please fill in all the fields.");
 
         }
     }

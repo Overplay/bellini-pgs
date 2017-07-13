@@ -11,9 +11,9 @@ module.exports = function ( req, res, next ) {
 
     // User is allowed, proceed to the next policy,
     // or if this is the last policy, the controller
-    if ( req.session.authenticated && !req.session.user.auth.blocked ) {
+    if ( req.session && req.session.authenticated && !req.session.user.auth.blocked ) {
 
-        if (req.session.user.auth.ring==1){
+        if ( req.session && req.session.user &&req.session.user.auth.ring==1){
             return next();
         }
 

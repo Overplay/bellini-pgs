@@ -26,16 +26,24 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
         return _.extend( navViews, { "appbody": withView } );
     }
 
+    // Probably won't be used in PGS, but here in case
+    function withUserResolve( resolvers ) {
+        return _.extend( resolvers, { user: function(userAuthService){
+            return userAuthService.getCurrentUser();
+        } } );
+    }
+
     $urlRouterProvider.otherwise( '/' );
 
     $stateProvider
 
-        .state( 'welcome', {
+        .state( 'dashboard', {
             url:   '/',
             views: buildCompleteView( {
-                template:   '<og-spinner></og-spinner>',
+                templateUrl:   '/ui2app/app/components/dashboard/dashboard.partial.html',
                 controller: 'redirectController'
-            } )
+            } ),
+            resolve: withUserResolve()
 
         } )
 
@@ -47,215 +55,48 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
                 templateUrl: '/ui2app/app/components/account/myaccount.partial.html',
                 controller:  'myAccountController'
             } ),
-            resolve: {
-                me: function ( sailsUsers ) {
-                    return sailsUsers.getMe();
-                },
+            resolve: withUserResolve( {
                 sm: function ( navService ) {
                     navService.sideMenu.change( 'accountMenu' );
                 }
-            }
+            })
 
         } )
 
-        // ADMIN ROUTES
 
-        .state( 'admin', {
+        .state( 'bestposition', {
             abstract: true,
-            url:      '/admin',
+            url:      '/bp',
             views:    buildCompleteView( { template: '<ui-view></ui-view>', } ),
-            // This little hack sets the side menu for each major state
             resolve:  {
                 sm: function ( navService ) {
-                    navService.sideMenu.change( 'adminMenu' );
+                    navService.sideMenu.change('bpMenu');
                 }
             }
         } )
 
-        .state( 'admin.dashboard', {
-            url:         '/dashboard',
-            templateUrl: '/ui2app/app/components/admin/admindash.partial.html',
-            controller:  'adminDashController',
+        .state( 'bestposition.list', {
+            url:         '/list',
+            templateUrl: '/ui2app/app/components/bp/bplist.partial.html',
+            controller:  'bpListController',
             resolve:     {
-                userinfo:  function ( sailsUsers ) {
-                    return sailsUsers.analyze();
-                },
-                venueinfo: function ( $http ) {
-                    return $http.get( '/venue/count' ).then( function ( d ) { return d.data; } );
-                },
-                ads:       function ( sailsAds ) {
-                    return sailsAds.getForReview();
-                },
-            }
-        } )
-
-        .state( 'admin.userlist', {
-            url:         '/userlist',
-            templateUrl: '/ui2app/app/components/admin/userlist.partial.html',
-            controller:  'adminUserListController',
-            resolve:     {
-                users: function ( sailsUsers ) {
-                    return sailsUsers.getAll();
-                }
-            }
-        } )
-
-        .state( 'admin.edituser', {
-            url:         '/edituser/:id',
-            templateUrl: '/ui2app/app/components/admin/edituser.partial.html',
-            controller:  'adminUserEditController',
-            resolve:     {
-                user:      function ( sailsUsers, $stateParams ) {
-                    return sailsUsers.get( $stateParams.id );
-                },
-                allVenues: function ( sailsVenues ) {
-                    return sailsVenues.getAll();
+                deals: function ( sailsBestPosition ) {
+                    return sailsBestPosition.getAll();
                 }
             }
 
         } )
 
-
-        .state( 'admin.venuelist', {
-            url:         '/venuelist',
-            templateUrl: '/ui2app/app/components/admin/venuelist.partial.html',
-            controller:  'adminVenueListController',
-            resolve:     {
-                venues: function ( sailsVenues ) {
-                    return sailsVenues.getAll();
-                }
-            }
-        } )
-
-        .state( 'admin.devicelist', {
-            url:         '/devicelist',
-            templateUrl: '/ui2app/app/components/admin/devicelist.partial.html',
-            controller:  'adminDeviceListController',
-            resolve:     {
-                venues:  function ( sailsVenues ) {
-                    return sailsVenues.getAll();
-                },
-                devices: function ( sailsOGDeviceRemote ) {
-                    return sailsOGDeviceRemote.getAll();
-                }
-            }
-        } )
-
-        .state( 'admin.devicedetail', {
-            url:         '/device/:id',
-            templateUrl: '/ui2app/app/components/admin/devicedetail.partial.html',
-            controller:  'adminDeviceDetailController',
-            resolve:     {
-                device: function ( sailsOGDeviceRemote, $stateParams ) {
-                    return sailsOGDeviceRemote.get( $stateParams.id );
-                }
-            }
-        } )
-
-        .state( 'admin.adlist', {
-            url:         '/adlist',
-            templateUrl: '/ui2app/app/components/admin/adlist.partial.html',
-            controller:  'adminAdListController',
-            resolve:     {
-                ads: function ( sailsAds ) {
-                    return sailsAds.getAll();
-                }
-            }
-        } )
-
-        .state( 'admin.editad', {
+        .state( 'bestposition.edit', {
             url:         '/edit/:id',
-            templateUrl: '/ui2app/app/components/admin/adedit.partial.html',
-            controller:  'adminAdEditController',
+            templateUrl: '/ui2app/app/components/bp/bpedit.partial.html',
+            controller:  'dealEditController',
             resolve:     {
-                ad: function ( sailsAds, $stateParams ) {
-                    return sailsAds.get( $stateParams.id );
-                }
-            }
-        } )
-
-        .state( 'admin.editvenue', {
-            url:         '/editvenue/:id',
-            templateUrl: '/ui2app/app/components/admin/editvenue.partial.html',
-            controller:  'adminVenueEditController',
-            resolve: {
-                venue: function ( sailsVenues, $stateParams ) {
-                    return sailsVenues.get( $stateParams.id );
-                }
-            }
-        })
-
-        .state( 'admin.addvenue', {
-            url:         '/addvenue',
-            templateUrl: '/ui2app/app/components/admin/addvenue.partial.html',
-            controller:  'adminVenueAddController',
-            resolve: {
-                venue: function ( sailsVenues ) {
-                    return sailsVenues.new();
-                },
-                ring: function ( userAuthService ) {
-                    return userAuthService.getCurrentUserRing();
-                }
-            }
-        })
-
-        // Proprietor Owner Links
-
-        .state( 'owner', {
-            abstract: true,
-            url:      '/owner',
-            views:    buildCompleteView( { template: '<ui-view></ui-view>', } ),
-            // This little hack sets the side menu for each major state
-            resolve:  {
-                sm: function ( navService ) {
-                    navService.sideMenu.change( 'ownerMenu' );
-                }
-            }
-        } )
-
-        .state( 'owner.dashboard', {
-            url:         '/dashboard',
-            templateUrl: '/ui2app/app/components/roles/owner/ownerdash.partial.html',
-            controller:  'ownerDashController',
-            resolve:     {
-                myVenues: function ( sailsVenues ) {
-                    return sailsVenues.getMyVenues();
+                bp:    function ( sailsBestPosition, $stateParams ) {
+                    return sailsBestPosition.get( $stateParams.id );
                 }
             }
 
         } )
-
-        // User routes
-
-
-        .state( 'user', {
-            abstract: true,
-            url:      '/user',
-            views:    buildCompleteView( { template: '<ui-view></ui-view>', } ),
-            // This little hack sets the side menu for each major state
-            resolve:  {
-                sm: function ( navService ) {
-                    navService.sideMenu.change( 'patronMenu' );
-                }
-            }
-        } )
-
-        .state( 'user.dashboard', {
-            url:         '/dashboard',
-            templateUrl: '/ui2app/app/components/roles/patron/patrondash.partial.html'
-        } )
-
-        .state( 'user.edit', {
-            url:         '/edit/:id',
-            templateUrl: '/ui2app/app/components/user/edituser.partial.html',
-            controller:  'userEditController',
-            resolve:     {
-                user: function ( sailsUsers, $stateParams ) {
-                    return sailsUsers.get( $stateParams.id );
-                }
-            }
-
-        } )
-
 
 } );

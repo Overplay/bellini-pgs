@@ -17,3 +17,5 @@ gulp.task( 'sass', function () {
         // Write the resulting CSS in the output folder
         .pipe( gulp.dest( outputScss ) );
 } );
+
+gulp.task( 'default', ['sass']);

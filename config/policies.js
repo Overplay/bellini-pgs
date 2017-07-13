@@ -78,7 +78,7 @@ module.exports.policies = {
 
 
     UserController: {
-        '*':                 false,
+        '*':                 true,
         'find':              [ 'sessionAuth' ],
         'findOne':           [ 'sessionAuth' ],
         'update':            [ 'sessionAuth' ],

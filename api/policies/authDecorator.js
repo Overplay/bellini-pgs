@@ -13,8 +13,8 @@ module.exports = function ( req, res, next ) {
     // Add decoration all views can count on
     req.options.locals = req.options.locals || {};
     // This !! bit of magic converts truthy/falsy to the hard true/false that EJS needs
-    req.options.locals.authenticated = !!req.session.authenticated;
-    req.options.locals.admin = !!( req.session.user && req.session.user.auth && (req.session.user.auth == 1));
+    req.options.locals.authenticated = !!(req.session && req.session.authenticated);
+    req.options.locals.admin = !!( req.session && req.session.user && req.session.user.auth && (req.session.user.auth == 1));
 
     req.options.locals.roles = "Yeah, we don't do roles anymore";
 

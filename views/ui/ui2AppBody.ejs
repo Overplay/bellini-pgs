@@ -1,10 +1,8 @@
 <!-- MAIN CONTENT -->
 
 <div ui-view="navtop"></div>
+<div ui-view="navside"></div>
 
-<div style="display: flex;">
-    <div ui-view="navside"></div>
-    <div ui-view="appbody" style="padding: 10px;"></div>
+<div class="main-view">
+    <div ui-view="appbody"></div>
 </div>
-
-

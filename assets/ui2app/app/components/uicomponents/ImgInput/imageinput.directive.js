@@ -2,13 +2,15 @@
  * Created by mkahn on 6/20/16.
  */
 
+
 app.directive( 'imgInput', function ( $log, $timeout, $rootScope ) {
     return {
         restrict:    'E',
         scope:       {
             dirty:    '=?',
             srcField: '=?',
-            prompt:   '@'
+            prompt:   '@',
+            onUpdate: '&?'
         },
         link:        function ( scope, elem, attrs ) {
 

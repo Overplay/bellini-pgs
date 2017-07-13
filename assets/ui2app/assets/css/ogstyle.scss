@@ -1,15 +1,25 @@
 @import "scss/colors";
 @import "scss/ogmaterial";
-@import "../../app/components/navtop/navtop";
 @import "../../app/components/navside/navside";
-@import "../../app/components/device/device";
+@import "../../app/components/navtop/navtop";
 @import "../../app/components/user/ringbadge";
-@import "../../app/components/device/devicecard";
 
 $corner-radius: 3px;
 
 body {
   //background-color: $light-grey !important;
+}
+
+.main-view {
+  position: absolute;
+  top: $nav-top-height + 5px;
+  left: $nav-side-width + 5px;
+  background-color: rgba(255, 255, 255, 0);
+  width: 80%;
+  padding: 2px;
+  //border: 2px solid yellow;
+  overflow: scroll;
+
 }
 
 .angular-google-map-container {

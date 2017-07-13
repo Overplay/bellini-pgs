@@ -1,14 +1,24 @@
+$nav-side-width: 150px;
 
 .ogsidebar {
-  position: relative;
-  /*top: 60px;*/
+  position: absolute;
+  top:  0;
   left: 0;
-  background-color: white;
-  width: 220px;
+  background-color: $nav-header-color;
+  width: $nav-side-width;
   height: 100%;
   /* Temp border for layout */
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  //border: 1px solid rgba(255, 255, 255, 0.15);
   transition: all 350ms ease-in-out;
+  z-index: 1000;
+
+}
+
+.logo {
+  padding: 5%;
+  width: 100px;
+  //max-height: 25px;
+  //margin: 15px 0 0 10px;
 }
 
 .sidelinkholder {
@@ -16,24 +26,27 @@
   margin: 20px 10px 0 10px;
   /*border-top: 2px solid #348ad6;*/
   /*border-top: 1px solid #c1e9ff;*/
-  border-right: 1px solid $faint-blue;
-  min-height: 500px;
+  //border-right: 1px solid $faint-blue;
+  min-height: 100vh;
 
 }
 
 .sidelink {
   font-size: 18px;
+  font-family: 'Open Sans Condensed', sans-serif;
   display: flex;
-  padding: 10px 0 10px 0;
-  background-color: white;
-  color: $side-link-grey;
-  transition: all 0.5s;
+  padding: 10px 10px 10px 10px;
+  //background-color: white;
+  color: white;
+  transition: all 0.15s;
   position: relative;
   cursor: pointer;
 }
 
 .sidelink:hover {
   background-color: darken(white, 10%);
+  color: $redwine;
+  border-radius: 10px;
 }
 
 .sideicon {

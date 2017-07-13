@@ -3,7 +3,7 @@
  */
 
 
-app.factory( "sailsUsers", function ( sailsApi, sailsCoreModel, sailsAuth, userAuthService ) {
+app.factory( "sailsUsers", [ 'sailsApi', 'sailsCoreModel', 'sailsAuth', function ( sailsApi, sailsCoreModel, sailsAuth ) {
 
 
     var getAll = function ( queryString ) {
@@ -36,7 +36,12 @@ app.factory( "sailsUsers", function ( sailsApi, sailsCoreModel, sailsAuth, userA
             this.email = json && json.auth && json.auth.email;
             this.auth = json && json.auth && sailsAuth.new( json.auth );
             this.blocked = this.auth && this.auth.blocked;
-            this.ring = this.auth && this.auth.ring;
+            this.ring = this.auth && this.auth.ring || 10;
+
+            this.isAdmin = this.ring === 1;
+            this.isOwner = (this.ring === 3) && this.ownedVenues.length > 0;
+            this.isManager = this.ring === 3 && this.managedVenues.length > 0;
+            this.isAdvertiser = this.ring === 4;
 
             this.parseCore( json );
         };
@@ -125,10 +130,6 @@ app.factory( "sailsUsers", function ( sailsApi, sailsCoreModel, sailsAuth, userA
             .then( newUser );
     }
 
-    var getMe = function(){
-        return userAuthService.getCurrentUser()
-            .then( newUser );
-    }
 
     var getByEmail = function( emailAddress ){
         return sailsApi.getModels( 'auth', 'email='+emailAddress)
@@ -150,14 +151,14 @@ app.factory( "sailsUsers", function ( sailsApi, sailsCoreModel, sailsAuth, userA
     }
 
 
+
     // Exports...new pattern to prevent this/that crap
     return {
         getAll: getAll,
         new:    newUser,
         get:    getUser,
-        getMe:  getMe,
         analyze: analyze,
         getByEmail: getByEmail
-    }
+        }
 
-} );
+}] );

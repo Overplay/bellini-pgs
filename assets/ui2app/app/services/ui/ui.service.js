@@ -2,47 +2,39 @@
  * Created by mkahn on 4/22/17.
  */
 
-app.factory( 'navService', function ( $rootScope ) {
+app.factory( 'navService', function ( $rootScope, userAuthService ) {
 
     var currentSideKey = '';
     var currentTopKey = '';
 
+    var userRing = 0;
+
+    userAuthService.getCurrentUserRing()
+        .then( function ( ring ) {
+            userRing = ring;
+        } );
+
 
     var sideMenuGroups = {
-        adminMenu:   [
-            { label: "All Users", sref: "admin.userlist", icon: "users" },
-            { label: "Add User", sref: "admin.edituser({id: 'new'})", icon: "user" },
-            { label: "All Venues", sref: "admin.venuelist", icon: "globe" },
-            { label: "Add Venue", sref: "admin.editvenue({id: 'new'})", icon: "building-o" },
-            { label: "All Ads", sref: "admin.adlist", icon: "bullhorn"},
-            { label: "Create Ad", sref: "admin.editad({id: 'new'})", icon: "paint-brush" },
-            { label: "Devices", sref: "admin.devicelist", icon: "television" },
-            { label: "Maintenance", sref: "admin.maint", icon: "gears" }
+        dashMenu:  [
+        ],
+        bpMenu:  [
+            { label: "Home", sref: "dashboard", icon: "home" },
+            { label: "Add Entry", sref: "bestposition.edit({id:'new'})", icon: "users" },
+            { label: "All Entries", sref: "bestposition.list", icon: "user" },
         ],
         accountMenu: [
-            { label: "Invite Users", sref: "invite", icon: "users" }
+            { label: "Home", sref: "dashboard", icon: "home" },
+            { label: "Add Account", sref: "bestposition.edit({id:'new'})", icon: "users" },
+            { label: "All Accounts", sref: "bestposition.list", icon: "user" },
         ]
     };
 
     var topMenuGroups = {
 
-        managerMenu: [
-            { label: "venues", sref: "manager.venues", icon: "building" },
-            { label: "devices", sref: "manager.devices", icon: "television" }
-        ],
-
-        ownerMenu: [
-            { label: "venues", sref: "owner.venues", icon: "building" },
-            { label: "devices", sref: "owner.devices", icon: "television" },
-            { label: "patrons", sref: "owner.patrons", icon: "users" }
-        ],
-
-        advertiserMenu: [
-            { label: "ads", sref: "sponsor.dashboard", icon: "bullhorn" }
-        ],
-
-        adminMenu: [
-            { label: "admin dashboard", sref: "admin.dashboard", icon: "cube" }
+        topMenu: [
+            { label: "dashboard", sref: "dashboard", icon: "cube" },
+            { label: "best position", sref: "bestpposition.list", icon: "cube" },
         ]
 
     }
@@ -52,7 +44,21 @@ app.factory( 'navService', function ( $rootScope ) {
         sideMenu: {
 
             change: function ( group ) {
-                currentSideKey = group;
+                if ( group ) {
+                    currentSideKey = group;
+                } else {
+                    switch ( userRing ) {
+                        case 1:
+                            currentSideKey = 'adminMenu';
+                            break;
+                        case 3:
+                            currentSideKey = 'dashMenu';
+
+                    }
+                }
+
+                $rootScope.$broadcast( 'CHANGE_SIDEMENU', sideMenuGroups[ currentSideKey ] || [] );
+
             },
 
             getMenu: function () {
@@ -70,26 +76,17 @@ app.factory( 'navService', function ( $rootScope ) {
                 var menu = [];
 
                 // TODO maybe this should be if-then since fallthrough is weird
-                switch (user.auth.ring){
+                switch ( user.auth.ring ) {
 
                     case 1:
-                        // Admin
-                        menu = menu.concat(topMenuGroups.adminMenu);
+                    case 3:
+                    default:
+                        // Admin & user same fornow
+                        menu = menu.concat( topMenuGroups.topMenu );
                         //menu = menu.concat(topMenuGroups.advertiserMenu);
                         //menu = menu.concat(topMenuGroups.ownerMenu);
                         break;
 
-                    case 4:
-                        menu = menu.concat(topMenuGroups.advertiserMenu);
-                        // intentionally no break to add these if needed
-                    case 3:
-                        // User
-                        if ( user.isOwner ) {
-                            menu = menu.concat(topMenuGroups.ownerMenu)
-                        } else if ( user.isManager ){
-                            menu = menu.concat(topMenuGroups.managerMenu);
-                        }
-                        break;
 
                 }
 
@@ -106,37 +103,35 @@ app.factory( 'navService', function ( $rootScope ) {
 } );
 
 
-app.controller( 'redirectController', [ 'userAuthService', '$state', function ( userAuthService, $state ) {
+app.controller( 'redirectController', [ '$state', 'user', function ( $state, user ) {
     // TODO think about removing the individual dashbaords and just add tiles to one unified dash
-    userAuthService.getCurrentUser()
-        .then( function ( user ) {
 
-            if ( user.isAdmin ) {
-                $state.go( 'admin.dashboard' );
-            }
 
-            else if ( user.isSponsor ) {
-                $state.go( 'sponsor.dashboard' );
-            }
+    if ( user.isAdmin ) {
+        $state.go( 'admin.dashboard' );
+    }
 
-            else if ( user.isOwner ) {
-                $state.go( 'owner.dashboard' );
-            }
+    else if ( user.isSponsor ) {
+        $state.go( 'sponsor.dashboard' );
+    }
 
-            else if ( user.isManager ) {
-                $state.go( 'manager.dashboard' );
-            }
+    else if ( user.isOwner ) {
+        $state.go( 'owner.dashboard' );
+    }
 
-            else {
-                $state.go( 'user.dashboard' );
-            }
+    else if ( user.isManager ) {
+        $state.go( 'manager.dashboard' );
+    }
 
-        } )
+    else {
+        $state.go( 'user.dashboard' );
+    }
+
 
 } ] );
 
 
-app.factory( 'dialogService', function ( $uibModal, uibHelper, $log ) {
+app.factory( 'dialogService', function ( $uibModal, uibHelper, $log, toastr ) {
 
     var service = {};
 
@@ -163,73 +158,74 @@ app.factory( 'dialogService', function ( $uibModal, uibHelper, $log ) {
 
     }
 
-    service.addressDialog = function (location, geocode, ring, yelp) {
+    service.addressDialog = function ( location, geocode, ring, yelp ) {
         var modalInstance = $uibModal.open( {
             templateUrl: '/ui2app/app/services/ui/addresschange.dialog.html',
-            controller: function ( $scope, $uibModalInstance, sailsVenues, toastr, geocode ) {
+            controller:  function ( $scope, $uibModalInstance, sailsVenues, toastr, geocode ) {
                 $scope.data = {
-                    address: location.address || {},
-                    geolocation: location.geolocation || {},
-                    yelpId: "",
+                    address:       location.address || {},
+                    geolocation:   location.geolocation || {},
+                    yelpId:        "",
                     googlePlaceId: ""
                 };
+                $scope.modal = { title: location.title };
                 $scope.ring = ring;
                 $scope.yelp = yelp;
-                $scope.parameters = {limit: 8};
+                $scope.parameters = { limit: 8 };
                 $scope.zipRegex = "\\d{5}([\\-]\\d{4})?";
-                $scope.setForm = function(form) { $scope.form = form; };
+                $scope.setForm = function ( form ) { $scope.form = form; };
 
-                $scope.initializeLocation = function() {
+                $scope.initializeLocation = function () {
                     $scope.parameters.location = "Locating...";
                     geocode.locate()
                         .then( geocode.revGeocode )
-                        .then( function (loc) {
+                        .then( function ( loc ) {
                             $scope.parameters.location = loc.city + ", " + loc.state;
-                            toastr.success("Successfully located!");
-                        })
-                        .catch( function (err) {
+                            toastr.success( "Successfully located!" );
+                        } )
+                        .catch( function ( err ) {
                             $scope.parameters.location = "";
-                            $log.error(err);
-                            toastr.error("Could not find your location");
-                        })
+                            $log.error( err );
+                            toastr.error( "Could not find your location" );
+                        } )
                 };
 
                 $scope.yelpSearch = function () {
-                    return sailsVenues.yelp($scope.parameters)
-                        .catch( function (err) {
-                            toastr.error("Error fetching Yelp suggestions");
-                            $log.error(err);
-                        });
+                    return sailsVenues.yelp( $scope.parameters )
+                        .catch( function ( err ) {
+                            toastr.error( "Error fetching Yelp suggestions" );
+                            $log.error( err );
+                        } );
                 };
 
-                $scope.yelpCopy = function ($item, $model) {
+                $scope.yelpCopy = function ( $item, $model ) {
                     $scope.data.address = {
-                        street: $model.location.address1,
+                        street:  $model.location.address1,
                         street2: $model.location.address2,
-                        city: $model.location.city,
-                        state: $model.location.state,
-                        zip: $model.location.zip_code
+                        city:    $model.location.city,
+                        state:   $model.location.state,
+                        zip:     $model.location.zip_code
                     };
                     $scope.data.geolocation = {
-                        latitude: $model.coordinates.latitude,
+                        latitude:  $model.coordinates.latitude,
                         longitude: $model.coordinates.longitude
                     };
                     $scope.data.yelpId = $model.id;
                 };
 
-                $scope.geoCheck = function() {
-                    if (geocode && $scope.form.$valid) {
-                        toastr.success("", "Geocoding...");
-                        sailsVenues.geocode(sailsVenues.addressStr($scope.data.address))
-                            .then( function (res) {
-                                toastr.success(res[0].formatted_address, "Geocoded successfully");
-                                $scope.data.geolocation.longitude = res[0].geometry.location.lng;
-                                $scope.data.geolocation.latitude = res[0].geometry.location.lat;
-                                $scope.data.googlePlaceId = res[0].place_id;
-                            })
-                            .catch( function (err) {
-                                toastr.error(err.toString(), "Error geocoding");
-                            })
+                $scope.geoCheck = function () {
+                    if ( geocode && $scope.form.$valid ) {
+                        toastr.success( "", "Geocoding..." );
+                        sailsVenues.geocode( sailsVenues.addressStr( $scope.data.address ) )
+                            .then( function ( res ) {
+                                toastr.success( res[ 0 ].formatted_address, "Geocoded successfully" );
+                                $scope.data.geolocation.longitude = res[ 0 ].geometry.location.lng;
+                                $scope.data.geolocation.latitude = res[ 0 ].geometry.location.lat;
+                                $scope.data.googlePlaceId = res[ 0 ].place_id;
+                            } )
+                            .catch( function ( err ) {
+                                toastr.error( err.toString(), "Error geocoding" );
+                            } )
                     }
                 }
 
@@ -241,11 +237,58 @@ app.factory( 'dialogService', function ( $uibModal, uibHelper, $log ) {
                     $uibModalInstance.dismiss( 'cancel' );
                 }
             },
-            size: 'lg'
+            size:        'lg'
 
-        });
+        } );
 
         return modalInstance.result;
+    }
+
+    service.pickVenue = function ( venues ) {
+
+        var modalInstance = $uibModal.open( {
+            templateUrl: '/ui2app/app/services/ui/pickvenue.dialog.html',
+            controller:  function ( $scope, $uibModalInstance ) {
+
+                $scope.venues = venues;
+
+                $scope.ok = function () {
+                    $uibModalInstance.close( $scope.venue );
+                }
+
+                $scope.cancel = function () {
+                    $uibModalInstance.dismiss( 'cancel' );
+                }
+            }
+
+        } );
+
+        return modalInstance.result;
+    }
+
+    function terror( err ) {
+        if ( err === 'cancel' ) {
+            toastr.warning( 'Edit abandoned' );
+        } else {
+            toastr.error( err.message );
+
+        }
+    }
+
+
+    service.changeStringField = function ( model, field, prompt, textArea ) {
+
+        uibHelper.stringEditModal( prompt, "", model[ field ], field, textArea )
+            .then( function ( newString ) {
+                $log.debug( 'String for ' + field + ' changed to: ' + newString );
+                model[ field ] = newString;
+                model.save()
+                    .then( function () {
+                        toastr.success( "Field changed" );
+                    } )
+                    .catch( terror );
+            } );
+
     }
 
     return service;

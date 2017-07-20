@@ -34,7 +34,7 @@ app.factory( 'navService', function ( $rootScope, userAuthService ) {
 
         topMenu: [
             { label: "dashboard", sref: "dashboard", icon: "cube" },
-            { label: "best position", sref: "bestpposition.list", icon: "cube" },
+            { label: "best position", sref: "bestposition.list", icon: "cube" },
         ]
 
     }

@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="row">
+    <div class="col-10 material-panel">
+      <h1><i class="fa fa-plus" aria-hidden="true" style="color: #999999"></i>&nbsp;Please fill in the following information:</h1>
+
+      <form name="bestPositionForm" ng-submit="submitForm(userForm.$valid)" novalidate>
+
+        <br>
+        <div class="form-group">
+          <label for="carrier">Carrier:</label>
+            <select id="carrier" name= "carrier" ng-model="bestposition.carrier">
+            <option>Direct TV AT&T</option>
+            <option>Comcast</option>
+            <option>Dish</option></select><br><br />
+      </div>
+
+        <div class="form-group" ng-class="{ 'has-error' : bestPositionForm.channelNumber.$invalid && bestPositionForm.channelNumber.$touched }">
+          <label for="channelNumber">Channel Number:</label>
+          <input type="number" class="form-control" name="channelNumber" id="channelNumber" ng-model="bestposition.channelNumber" placeholder="Channel Number" required>
+          <p ng-show="bestPositionForm.channelNumber.$invalid && bestPositionForm.channelNumber.$touched" class="help-block">Channel Number required, must be a number.</p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error' : bestPositionForm.network.$invalid && bestPositionForm.network.$touched }">
+          <label for="network">Network:</label>
+          <input type="text" class="form-control" name="network" id="network" ng-model="bestposition.network" placeholder="Network" required>
+          <!--<p ng-show="bestposition.network.$error.required">Network required.</p>-->
+          <p ng-show="bestPositionForm.network.$invalid && bestPositionForm.network.$touched" class="help-block">Network required.</p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error' : bestPositionForm.lineupID.$invalid && bestPositionForm.lineupID.$touched }">
+          <label for="lineupID">Lineup ID:</label>
+          <input type="text" class="form-control" name="lineupID" id="lineupID" ng-model="bestposition.lineupID" placeholder="Lineup ID" required>
+          <!--<p ng-show="bestposition.lineupID.$error.required">Lineup ID required.</p>-->
+          <p ng-show="bestPositionForm.lineupID.$invalid && bestPositionForm.lineupID.$touched" class="help-block">Lineup ID required.</p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error' : bestPositionForm.programID.$invalid && bestPositionForm.programID.$touched }">
+          <label for="programID">Program ID:</label>
+          <input type="text" class="form-control" name="programID" id="programID" ng-model="bestposition.programID" placeholder="Program ID" required>
+          <!--<p ng-show="bestposition.programID.$error.required">Program ID required.</p>-->
+          <p ng-show="bestPositionForm.programID.$invalid && bestPositionForm.programID.$touched" class="help-block">Program ID required.</p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error' : bestPositionForm.postalCode.$invalid && bestPositionForm.postalCode.$touched }">
+          <label for="postalCode">Postal Code:</label>
+          <input type="number" class="form-control" ng-maxlength="5" name="postalCode" id="postalCode" ng-model="bestposition.postalCode" placeholder="Postal Code" required>
+          <!--<p ng-show="bestposition.postalCode.$error.required">Postal Code required.</p>-->
+          <p ng-show="(bestPositionForm.postalCode.$invalid && bestPositionForm.postalCode.$touched) || bestPositionForm.postalCode.$error.maxlength" class="help-block">Postal Code required must be valid number no more than 5 digits.</p>
+        </div>
+
+        <div id="widgetLocation">
+          <label for="widgetLocation"> Where Should the Widget NOT be: </label><br>
+          <input type="checkbox" ng-model="bestposition.widgetLocation.leftUpper"> Left Upper<br>
+          <input type="checkbox" ng-model="bestposition.widgetLocation.leftLower"> Left Lower<br>
+          <input type="checkbox" ng-model="bestposition.widgetLocation.rightUpper"> Right Upper<br>
+          <input type="checkbox" ng-model="bestposition.widgetLocation.rightLower"> Right Lower<br>
+        </div>
+        <br>
+
+        <div id="crawlerLocation">
+          <label for="widgetLocation"> Where Should the Crawler NOT be: </label><br>
+          <input type="checkbox" ng-model="bestposition.crawlerLocation.top"> Top<br>
+          <input type="checkbox" ng-model="bestposition.crawlerLocation.bottom"> Bottom<br>
+        </div>
+      <br>
+
+        <button class="btn btn-primary" ng-disabled="bestPositionForm.$invalid" style="margin-top: 10px; width: 100%;" ng-click="postThisBestPosition() ">Send It!</button>
+        <br> </br>
+
+      </form>
+    </div>
+  </div>
+</div>

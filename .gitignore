@@ -46,6 +46,7 @@
 #config/local.js
 #config/waterlock.js
 data/**
+cache/**
 
 ################################################
 # Dependencies

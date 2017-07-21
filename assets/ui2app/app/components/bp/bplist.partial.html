@@ -1,27 +1,60 @@
 <div class="container">
   <div class="row">
     <div class="col-10 material-panel">
+
+      <style>
+        table, th , td {
+          border: 1px solid grey;
+          border-collapse: collapse;
+          padding: 5px;
+        }
+        table tr:nth-child(odd) {
+          background-color: #f1f1f1;
+        }
+        table tr:nth-child(even) {
+          background-color: #ffffff;
+        }
+      </style>
+
       <h1><i class="fa fa-thumbs-up" aria-hidden="true" style="color: #999999"></i>&nbsp;&nbsp;All Best Positions</h1>
 
-      <h3>There are {{ bestpositions.length }} entries in the database.</h3>
+      <h3>There are {{ bestpositions.length }} entries in the database.</h3> <br>
 
-      <div ng-if="bestpositions.length">
-        <input type="text" ng-model="searchTerm" class="form-control" placeholder="Search best positions...">
-        <div style="overflow-y: scroll; height: 100vh; margin-top: 10px;">
-          <!-- best position card -->
-          <div class="card" ng-repeat="bp in bestpositions">
-          <p><b>Carrier:</b> {{  bp.carrier }}</p>
-          <p><b>Channel Number:</b> {{  bp.channelNumber }}</p>
-          <p><b>Network:</b> {{  bp.network }}</p>
-          <p><b>Lineup ID:</b> {{  bp.lineupID }}</p>
-          <p><b>Program ID:</b> {{  bp.programID }}</p>
-          <p><b>Postal Code:</b> {{  bp.postalCode }}</p>
-          <p><b>No widget at:</b> {{ bp.widgetLocation }}</p>
-          <p><b>No crawler at:</b> {{ bp.crawlerLocation }}</p>
-          <p><i>{{ bp.createdAt | date }}</i></p>
-          <button class="btn btn-danger" ng-click="delete(bp)">DELETE</button>
+      <!--<div ng-if="bestpositions.length">-->
+        <!--<input type="text" ng-model="searchTerm" class="form-control" placeholder="Search best positions...">-->
+        <!--<div style="overflow-y: scroll; height: 100vh; margin-top: 10px;">-->
+          <!--&lt;!&ndash; best position card &ndash;&gt;-->
+          <!--<div class="card" ng-repeat="bp in bestpositions">-->
+          <!--<p><b>Carrier:</b> {{  bp.carrier }}</p>-->
+          <!--<p><b>Channel Number:</b> {{  bp.channelNumber }}</p>-->
+          <!--<p><b>Network:</b> {{  bp.network }}</p>-->
+          <!--<p><b>Lineup ID:</b> {{  bp.lineupID }}</p>-->
+          <!--<p><b>Program ID:</b> {{  bp.programID }}</p>-->
+          <!--<p><b>Postal Code:</b> {{  bp.postalCode }}</p>-->
+          <!--<p><b>No widget at:</b> {{ bp.widgetLocation }}</p>-->
+          <!--<p><b>No crawler at:</b> {{ bp.crawlerLocation }}</p>-->
+          <!--<p><i>{{ bp.createdAt | date }}</i></p>-->
+          <!--<button class="btn btn-danger" ng-click="delete(bp)">DELETE</button>-->
+      <!--</div>-->
+
+      <div style="overflow-y: scroll; height: 100vh; margin-top: 10px;">
+          <table>
+            <tr ng-repeat="bp in bestpositions">
+              <td><b>Carrier:</b> {{ bp.carrier }} </td>
+              <td><b>Channel Number:</b> {{ bp.channelNumber }} </td>
+              <td><b>Network:</b> {{ bp.network }} </td>
+              <td><b>Lineup ID:</b> {{ bp.lineupID }} </td>
+              <td><b>Program ID:</b> {{ bp.programID }} </td>
+              <td><b>Postal Code:</b> {{ bp.postalCode }} </td>
+              <td><b>No Widget At:</b> {{ bp.widgetLocation }} </td>
+              <td><b>No Crawler at:</b> {{ bp.crawlerLocation }} </td>
+            </tr>
+          </table>
+        <br>
+        <button class="btn btn-danger" ng-click="delete(bp)">DELETE</button>
       </div>
-        </div>
+
+      </div>
       </div>
     </div>
   </div>

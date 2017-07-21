@@ -10,11 +10,6 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
         "navtop":  {
             templateUrl: '/ui2app/app/components/navtop/navtop.partial.html',
             controller:  'navTopController',
-            resolve:     {
-                user: function ( userAuthService ) {
-                    return userAuthService.getCurrentUser();
-                }
-            }
         },
         "navside": {
             templateUrl: '/ui2app/app/components/navside/navside.partial.html',
@@ -68,11 +63,11 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
             abstract: true,
             url:      '/bp',
             views:    buildCompleteView( { template: '<ui-view></ui-view>', } ),
-            resolve:  {
+            resolve: withUserResolve({
                 sm: function ( navService ) {
                     navService.sideMenu.change('bpMenu');
                 }
-            }
+            })
         } )
 
         .state( 'bestposition.list', {

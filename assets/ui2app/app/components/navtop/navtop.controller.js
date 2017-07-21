@@ -16,11 +16,11 @@ app.controller( "navTopController", function ( $scope, $log, user, $rootScope, n
 
     $scope.logout = function(){
         userAuthService.logout();
-    }
+    };
 
     $scope.account = function(){
         $state.go('user.edit', { id: user.id });
-    }
+    };
 
     $scope.toggleSideMenu = function(){
         $rootScope.$broadcast("TOGGLE_SIDEMENU");

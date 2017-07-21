@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <div class="col-10 material-panel">
+      <h1><i class="fa fa-thumbs-up" aria-hidden="true" style="color: #999999"></i>&nbsp;&nbsp;All Best Positions</h1>
+
+      <h3>There are {{ bestpositions.length }} entries in the database.</h3>
+
+      <div ng-if="bestpositions.length">
+        <input type="text" ng-model="searchTerm" class="form-control" placeholder="Search best positions...">
+        <div style="overflow-y: scroll; height: 100vh; margin-top: 10px;">
+          <!-- best position card -->
+          <div class="card" ng-repeat="bp in bestpositions">
+          <p><b>Carrier:</b> {{  bp.carrier }}</p>
+          <p><b>Channel Number:</b> {{  bp.channelNumber }}</p>
+          <p><b>Network:</b> {{  bp.network }}</p>
+          <p><b>Lineup ID:</b> {{  bp.lineupID }}</p>
+          <p><b>Program ID:</b> {{  bp.programID }}</p>
+          <p><b>Postal Code:</b> {{  bp.postalCode }}</p>
+          <p><b>No widget at:</b> {{ bp.widgetLocation }}</p>
+          <p><b>No crawler at:</b> {{ bp.crawlerLocation }}</p>
+          <p><i>{{ bp.createdAt | date }}</i></p>
+          <button class="btn btn-danger" ng-click="delete(bp)">DELETE</button>
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

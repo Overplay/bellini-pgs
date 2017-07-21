@@ -41,7 +41,7 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
             url:   '/',
             views: buildCompleteView( {
                 templateUrl:   '/ui2app/app/components/dashboard/dashboard.partial.html',
-                controller: 'redirectController'
+                // controller: 'redirectController'
             } ),
             resolve: withUserResolve()
 
@@ -80,7 +80,7 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
             templateUrl: '/ui2app/app/components/bp/bplist.partial.html',
             controller:  'bpListController',
             resolve:     {
-                deals: function ( sailsBestPosition ) {
+                bestpositions: function ( sailsBestPosition ) {
                     return sailsBestPosition.getAll();
                 }
             }
@@ -90,7 +90,7 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
         .state( 'bestposition.edit', {
             url:         '/edit/:id',
             templateUrl: '/ui2app/app/components/bp/bpedit.partial.html',
-            controller:  'dealEditController',
+            controller:  'bpEditController',
             resolve:     {
                 bp:    function ( sailsBestPosition, $stateParams ) {
                     return sailsBestPosition.get( $stateParams.id );

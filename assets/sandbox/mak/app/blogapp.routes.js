@@ -18,7 +18,7 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
 
         .state( 'newpost', {
             url:         '/postitnore',
-            templateUrl: 'app/components/newpost/newpost.template.html',
+            templateUrl: 'app/components/edit/edit.partial.html',
             controller:  'newPostController'
         } )
 

@@ -37,7 +37,7 @@
           <!--<button class="btn btn-danger" ng-click="delete(bp)">DELETE</button>-->
       <!--</div>-->
 
-      <div style="overflow-y: scroll; height: 100vh; margin-top: 10px;">
+      <div style="overflow-y: scroll; height: 100vh; margin-top: 10px; text-align:center;">
           <table>
             <tr>
               <th>Carrier</th>
@@ -52,7 +52,7 @@
             </tr>
             <tr ng-repeat="bp in bestpositions">
               <td>{{ bp.carrier }} </td>
-              <td>Channel Number:</b> {{ bp.channelNumber }} </td>
+              <td>{{ bp.channelNumber }} </td>
               <td>{{ bp.network }} </td>
               <td>{{ bp.lineupID }} </td>
               <td>{{ bp.programID }} </td>

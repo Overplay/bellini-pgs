@@ -14,10 +14,10 @@
             <option>Dish</option></select><br>
       </div>
 
-        <div class="form-group" ng-class="{ 'has-error' : bestPositionForm.channelNumber.$invalid && bestPositionForm.channelNumber.$touched }">
+        <div class="form-group" ng-class="{ 'has-error' : bestPositionForm.channelNumber.$invalid && bestPositionForm.channelNumber.$touched}">
           <label for="channelNumber">Channel Number:</label>
           <input type="number" class="form-control" name="channelNumber" id="channelNumber" ng-model="bestposition.channelNumber" placeholder="Channel Number" required>
-          <p ng-show="bestPositionForm.channelNumber.$invalid && bestPositionForm.channelNumber.$touched" class="help-block">Channel Number required, must be a number.</p>
+          <p ng-show="bestPositionForm.channelNumber.$invalid && bestPositionForm.channelNumber.$touched" class="help-block">Channel Number required, must be a positive number.</p>
         </div>
 
         <div class="form-group" ng-class="{ 'has-error' : bestPositionForm.network.$invalid && bestPositionForm.network.$touched }">

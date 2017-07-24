@@ -30,7 +30,7 @@ app.controller('bpEditController', function($scope, $log, toastr, $state, bp){
     $scope.postThisBestPosition = function(){
         $log.debug("Post that shizzz");
 
-        if ( $scope.bestposition.carrier && $scope.bestposition.channelNumber && $scope.bestposition.network && $scope.bestposition.lineupID && $scope.bestposition.programID && $scope.bestposition.postalCode){
+        if ( $scope.bestposition.carrier && $scope.bestposition.channelNumber && $scope.bestposition.network && $scope.bestposition.lineupID && $scope.bestposition.programID && $scope.bestposition.postalCode && $scope.bestposition.postalCode > 0 && $scope.bestposition.channelNumber > 0){
             // it's a valid post
             //stripFalseLocations();
             $scope.bestposition.save()
@@ -43,7 +43,18 @@ app.controller('bpEditController', function($scope, $log, toastr, $state, bp){
                 });
 
         } else {
-            toastr.error("Please fill in all of the following fields.");
+            if ($scope.bestposition.channelNumber < 0){
+                toastr.error("Your channel number must be a positive whole number.");
+            }
+            if ($scope.bestposition.postalCode < 0){
+                toastr.error("Your postal code must be a positive whole number.");
+            }
+            if (!$scope.bestposition.carrier){
+                toastr.error("You must put in a valid carrier.");
+            }
+            else {
+                toastr.error("Please fill in all of the following fields correctly.");
+            }
 
         }
     };

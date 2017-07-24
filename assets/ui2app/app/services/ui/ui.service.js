@@ -20,8 +20,8 @@ app.factory( 'navService', function ( $rootScope, userAuthService ) {
         ],
         bpMenu:  [
             { label: "Home", sref: "dashboard", icon: "home" },
-            { label: "Add Entry", sref: "bestposition.edit({id:'new'})", icon: "users" },
-            { label: "All Entries", sref: "bestposition.list", icon: "user" },
+            { label: "Add Entry", sref: "bestposition.edit({id:'new'})", icon: "plus" },
+            { label: "All Entries", sref: "bestposition.list", icon: "list" },
         ],
         accountMenu: [
             { label: "Home", sref: "dashboard", icon: "home" },

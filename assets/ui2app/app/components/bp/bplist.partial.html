@@ -39,19 +39,30 @@
 
       <div style="overflow-y: scroll; height: 100vh; margin-top: 10px;">
           <table>
+            <tr>
+              <th>Carrier</th>
+              <th>Channel Number</th>
+              <th>Network</th>
+              <th>Lineup ID</th>
+              <th>Program ID</th>
+              <th>Postal Code</th>
+              <th>No Widget At</th>
+              <th>No Crawler at</th>
+              <th>Delete This Entry</th>
+            </tr>
             <tr ng-repeat="bp in bestpositions">
-              <td><b>Carrier:</b> {{ bp.carrier }} </td>
-              <td><b>Channel Number:</b> {{ bp.channelNumber }} </td>
-              <td><b>Network:</b> {{ bp.network }} </td>
-              <td><b>Lineup ID:</b> {{ bp.lineupID }} </td>
-              <td><b>Program ID:</b> {{ bp.programID }} </td>
-              <td><b>Postal Code:</b> {{ bp.postalCode }} </td>
-              <td><b>No Widget At:</b> {{ bp.widgetLocation }} </td>
-              <td><b>No Crawler at:</b> {{ bp.crawlerLocation }} </td>
+              <td>{{ bp.carrier }} </td>
+              <td>Channel Number:</b> {{ bp.channelNumber }} </td>
+              <td>{{ bp.network }} </td>
+              <td>{{ bp.lineupID }} </td>
+              <td>{{ bp.programID }} </td>
+              <td>{{ bp.postalCode }} </td>
+              <td>{{ bp.widgetLocation }} </td>
+              <td>{{ bp.crawlerLocation }} </td>
+              <td><button class="btn btn-danger" ng-click="delete(bp)">DELETE</button></td>
             </tr>
           </table>
-        <br>
-        <button class="btn btn-danger" ng-click="delete(bp)">DELETE</button>
+
       </div>
 
       </div>

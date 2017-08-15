@@ -31,12 +31,11 @@ app.controller( 'adminUserListController', function ( $scope, users, $log, uibHe
 
 // USER EDIT FOR ADMIN
 
-app.controller( 'adminUserEditController', function ( $scope, user, $log, uibHelper, toastr,
-                                                      $state, userAuthService, allVenues ) {
+app.controller( 'adminUserEditController', function ( $scope, user2edit, $log, uibHelper, toastr,
+                                                      $state, userAuthService ) {
 
     $log.debug( "Loading adminUserEditController" );
-    $scope.user = user;
-    $scope.venues = allVenues; // gets passed to venue component
+    $scope.user = user2edit;
     var _newUser;
 
 
@@ -115,7 +114,7 @@ app.controller( 'adminUserEditController', function ( $scope, user, $log, uibHel
 
     }
 
-    if ( !user.email ) {
+    if ( !user2edit.email ) {
         createBrandNewUser();
     }
 

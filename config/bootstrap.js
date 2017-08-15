@@ -25,7 +25,8 @@ module.exports.bootstrap = function ( cb ) {
             },
             auth: {
                 email:    'admin@test.com',
-                password: 'beerchugs'
+                password: 'beerchugs',
+                ring: 1
             }
         },
         {
@@ -36,7 +37,8 @@ module.exports.bootstrap = function ( cb ) {
             },
             auth: {
                 email:    'mitcha@ourglass.tv',
-                password: 'D@rkB0ck!'
+                password: 'D@rkB0ck!',
+                ring: 1
             }
         },
         {
@@ -47,7 +49,8 @@ module.exports.bootstrap = function ( cb ) {
             },
             auth: {
                 email:    'treba@ourglass.tv',
-                password: 'D@rkB0ck!'
+                password: 'D@rkB0ck!',
+                ring: 1
             }
         }
 

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-8 material-panel">
-      <h1><i class="fa fa-plus" aria-hidden="true" style="color: #999999"></i>&nbsp;Please fill in the following information:</h1>
+      <h1><i class="fa fa-sliders" aria-hidden="true" style="color: #999999"></i>&nbsp;Edit Best Position</h1>
 
       <form name="bestPositionForm" ng-submit="submitForm(userForm.$valid)" novalidate>
 
@@ -43,28 +43,32 @@
 
         <div class="form-group" ng-class="{ 'has-error' : bestPositionForm.postalCode.$invalid && bestPositionForm.postalCode.$touched }">
           <label for="postalCode">Postal Code:</label>
-          <input type="number" class="form-control" ng-maxlength="5" name="postalCode" id="postalCode" ng-model="bestposition.postalCode" placeholder="Postal Code" required>
+          <input type="text" class="form-control" ng-maxlength="5" name="postalCode" id="postalCode" ng-model="bestposition.postalCode" placeholder="Postal Code" required>
           <!--<p ng-show="bestposition.postalCode.$error.required">Postal Code required.</p>-->
           <p ng-show="(bestPositionForm.postalCode.$invalid && bestPositionForm.postalCode.$touched) || bestPositionForm.postalCode.$error.maxlength" class="help-block">Postal Code required must be valid number no more than 5 digits.</p>
         </div>
 
         <div id="widgetLocation">
-          <label for="widgetLocation"> Where Should the Widget NOT be: </label><br>
-          <input type="checkbox" ng-model="bestposition.widgetLocation.leftUpper"> Left Upper<br>
-          <input type="checkbox" ng-model="bestposition.widgetLocation.leftLower"> Left Lower<br>
-          <input type="checkbox" ng-model="bestposition.widgetLocation.rightUpper"> Right Upper<br>
-          <input type="checkbox" ng-model="bestposition.widgetLocation.rightLower"> Right Lower<br>
+          <label for="widgetLocation"> Widget exclusions zones: </label><br>
+          <input type="checkbox" ng-model="bestposition.widgetLocation.leftUpper"><span ng-class="{ 'strikethru': bestposition.widgetLocation.leftUpper }">&nbsp;Left Upper </span> <br>
+          <input type="checkbox" ng-model="bestposition.widgetLocation.leftLower"><span ng-class="{ 'strikethru': bestposition.widgetLocation.leftLower }">&nbsp;Left Lower</span><br>
+          <input type="checkbox" ng-model="bestposition.widgetLocation.rightUpper"><span
+                ng-class="{ 'strikethru': bestposition.widgetLocation.rightUpper }">&nbsp;Right Upper</span><br>
+          <input type="checkbox" ng-model="bestposition.widgetLocation.rightLower"><span
+                ng-class="{ 'strikethru': bestposition.widgetLocation.rightLower }">&nbsp;Right Lower</span><br>
         </div>
         <br>
 
         <div id="crawlerLocation">
-          <label for="widgetLocation"> Where Should the Crawler NOT be: </label><br>
-          <input type="checkbox" ng-model="bestposition.crawlerLocation.top"> Top<br>
-          <input type="checkbox" ng-model="bestposition.crawlerLocation.bottom"> Bottom<br>
+          <label for="widgetLocation"> Crawler exclusion zones: </label><br>
+          <input type="checkbox" ng-model="bestposition.crawlerLocation.top"><span
+                ng-class="{ 'strikethru': bestposition.crawlerLocation.top }">&nbsp;Top</span><br>
+          <input type="checkbox" ng-model="bestposition.crawlerLocation.bottom"><span
+                ng-class="{ 'strikethru': bestposition.crawlerLocation.bottom }">&nbsp;Bottom</span><br>
         </div>
       <br>
 
-        <button class="btn btn-primary" ng-disabled="bestPositionForm.$invalid" style="margin-top: 10px; width: 100%;" ng-click="postThisBestPosition() ">Send It!</button>
+        <button class="btn btn-primary" ng-disabled="bestPositionForm.$invalid" style="margin-top: 10px; width: 100%;" ng-click="postThisBestPosition() ">SAVE</button>
         <br> </br>
 
       </form>

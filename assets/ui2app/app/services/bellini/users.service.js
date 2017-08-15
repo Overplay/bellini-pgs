@@ -7,7 +7,7 @@ app.factory( "sailsUsers", [ 'sailsApi', 'sailsCoreModel', 'sailsAuth', function
 
 
     var getAll = function ( queryString ) {
-        return sailsApi.apiGet( '/user/all', queryString )
+        return sailsApi.apiGet( '/user', queryString )
             .then( function ( users ) {
                 return users.map( newUser );
             } )
@@ -39,9 +39,10 @@ app.factory( "sailsUsers", [ 'sailsApi', 'sailsCoreModel', 'sailsAuth', function
             this.ring = this.auth && this.auth.ring || 10;
 
             this.isAdmin = this.ring === 1;
-            this.isOwner = (this.ring === 3) && this.ownedVenues.length > 0;
-            this.isManager = this.ring === 3 && this.managedVenues.length > 0;
-            this.isAdvertiser = this.ring === 4;
+            // this.isOwner = (this.ring === 3) && this.ownedVenues.length > 0;
+            // this.isManager = this.ring === 3 && this.managedVenues.length > 0;
+            this.isSupervisor = this.ring === 4;
+            this.isUser = !this.isAdmin && !this.isSupervisor;
 
             this.parseCore( json );
         };

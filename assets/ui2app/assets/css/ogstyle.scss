@@ -1,39 +1,13 @@
 @import "scss/colors";
 @import "scss/ogmaterial";
-@import "../../app/components/navside/navside";
 @import "../../app/components/navtop/navtop";
+@import "../../app/components/navside/navside";
 @import "../../app/components/user/ringbadge";
 
 $corner-radius: 3px;
 
 body {
   //background-color: $light-grey !important;
-}
-
-.main-view {
-  position: absolute;
-  top: $nav-top-height + 5px;
-  left: $nav-side-width + 5px;
-  background-color: rgba(255, 255, 255, 0);
-  width: 80%;
-  padding: 2px;
-  //border: 2px solid yellow;
-  overflow: scroll;
-
-}
-
-.angular-google-map-container {
-  height: 400px;
-}
-
-.noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none;
-  /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
 .subhead {
@@ -44,7 +18,7 @@ body {
 // An icon button
 .ibut {
   padding: 5px;
-  background-color: $primary-color;
+  background-color: $brand-blue;
   color: white;
   border-radius: 3px;
   &:hover {
@@ -59,6 +33,18 @@ body {
   font-weight: lighter;
   border-radius: $corner-radius;
 }
+
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
 
 .error-border {
   border: 2px solid $error-color !important;
@@ -117,6 +103,10 @@ body {
   bottom: 0;
   -webkit-animation-delay: -1.0s;
   animation-delay: -1.0s;
+}
+
+.strikethru {
+  text-decoration: line-through;
 }
 
 @-webkit-keyframes sk-rotate {

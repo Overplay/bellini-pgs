@@ -21,12 +21,6 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
         return _.extend( navViews, { "appbody": withView } );
     }
 
-    // Probably won't be used in PGS, but here in case
-    function withUserResolve( resolvers ) {
-        return _.extend( resolvers, { user: function(userAuthService){
-            return userAuthService.getCurrentUser();
-        } } );
-    }
 
     $urlRouterProvider.otherwise( '/' );
 
@@ -37,9 +31,11 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
             views: buildCompleteView( {
                 templateUrl:   '/ui2app/app/components/dashboard/dashboard.partial.html',
                 // controller: 'redirectController'
-            } ),
-            resolve: withUserResolve()
-
+            }),
+            sideMenu: [
+                { label: "Best Positions", sref: "bestposition.list", icon: "cube" },
+                { label: "User Mgt", sref: "admin.userlist", icon: 'users'}
+            ]
         } )
 
         // ACCOUNT
@@ -49,33 +45,21 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
             views:   buildCompleteView( {
                 templateUrl: '/ui2app/app/components/account/myaccount.partial.html',
                 controller:  'myAccountController'
-            } ),
-            resolve: withUserResolve( {
-                sm: function ( navService ) {
-                    navService.sideMenu.change( 'accountMenu' );
-                }
-            })
-
+            } )
         } )
 
 
         .state( 'bestposition', {
             abstract: true,
             url:      '/bp',
-            views:    buildCompleteView( { template: '<ui-view></ui-view>', } ),
-            resolve: withUserResolve({
-                sm: function ( navService ) {
-                    navService.sideMenu.change('bpMenu');
-                }
-            })
+            views:    buildCompleteView( { template: '<ui-view></ui-view>', } )
         } )
 
         .state( 'bestposition.list', {
             url:         '/list',
-            templateUrl: '/ui2app/app/components/bp/bplist.partial.html',
-            controller:  'bpListController',
+            component: 'bpList',
             resolve:     {
-                bestpositions: function ( sailsBestPosition ) {
+                bps: function ( sailsBestPosition ) {
                     return sailsBestPosition.getAll();
                 }
             }
@@ -89,6 +73,67 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
             resolve:     {
                 bp:    function ( sailsBestPosition, $stateParams ) {
                     return sailsBestPosition.get( $stateParams.id );
+                }
+            }
+
+        } )
+
+        .state( 'admin', {
+            abstract: true,
+            url:      '/admin',
+            views:    buildCompleteView( { template: '<ui-view></ui-view>', } )
+        } )
+
+        // .state( 'admin.dashboard', {
+        //     url:       '/dash',
+        //     component: 'adminDashboard',
+        //     sideMenu:  [
+        //         { label: "Users", sref: "admin.userlist", icon: "users" },
+        //         { label: "Venues", sref: "admin.venuelist", icon: "globe" },
+        //         { label: "Ads", sref: "admin.adlist", icon: "bullhorn" },
+        //         { label: "Devices", sref: "admin.devicelist", icon: "television" },
+        //         { label: "Maintenance", sref: "admin.maint", icon: "gears" }
+        //     ],
+        //     resolve:   {
+        //         userinfo:  function ( sailsUsers ) {
+        //             return sailsUsers.analyze();
+        //         },
+        //         venueinfo: function ( $http ) {
+        //             return $http.get( '/venue/count' ).then( function ( d ) { return d.data; } );
+        //         },
+        //         ads:       function ( sailsAds ) {
+        //             return sailsAds.getForReview();
+        //         }
+        //     }
+        // } )
+
+        .state( 'admin.userlist', {
+            url:       '/userlist',
+            component: 'userList',
+            sideMenu:  [
+                { label: 'Home', sref: "welcome", icon: "home" },
+                { label: "Add User", sref: "admin.edituser({id: 'new'})", icon: "user" }
+            ],
+            resolve:   {
+                users:   function ( sailsUsers ) {
+                    return sailsUsers.getAll();
+                },
+                heading: function () { return "All Users" }
+            }
+        } )
+
+        .state( 'admin.edituser', {
+            url:         '/edituser/:id',
+            templateUrl: '/ui2app/app/components/admin/edituser.partial.html',
+            controller:  'adminUserEditController',
+            sideMenu:    [
+                { label: 'Home', sref: "welcome", icon: "home" },
+                { label: "All Users", sref: "admin.userlist", icon: "users" },
+                { label: "Add User", sref: "admin.edituser({id: 'new'})", icon: "user" }
+            ],
+            resolve:     {
+                user2edit: function ( sailsUsers, $stateParams ) {
+                    return sailsUsers.get( $stateParams.id );
                 }
             }
 

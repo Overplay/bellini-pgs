@@ -2,6 +2,27 @@
  * Created by mkahn on 4/22/17.
  */
 
+app.factory( 'sideMenuService', function ( $rootScope ) {
+
+    var _currentMenu = [];
+
+    var _defaultMenu = [ { label: 'Home', sref: "dashboard", icon: "home" } ];
+
+    return {
+        setMenu: function ( menu ) {
+            _currentMenu = menu || _defaultMenu;
+            $rootScope.$broadcast( "NEW_SIDEMENU", _currentMenu );
+
+        },
+
+        getMenu: function () {
+            return _currentMenu;
+        }
+
+    }
+
+} );
+
 app.factory( 'navService', function ( $rootScope, userAuthService ) {
 
     var currentSideKey = '';
@@ -15,59 +36,17 @@ app.factory( 'navService', function ( $rootScope, userAuthService ) {
         } );
 
 
-    var sideMenuGroups = {
-        dashMenu:  [
-        ],
-        bpMenu:  [
-            { label: "Home", sref: "dashboard", icon: "home" },
-            { label: "Add Entry", sref: "bestposition.edit({id:'new'})", icon: "users" },
-            { label: "All Entries", sref: "bestposition.list", icon: "user" },
-        ],
-        accountMenu: [
-            { label: "Home", sref: "dashboard", icon: "home" },
-            { label: "Add Account", sref: "bestposition.edit({id:'new'})", icon: "users" },
-            { label: "All Accounts", sref: "bestposition.list", icon: "user" },
-        ]
-    };
 
     var topMenuGroups = {
 
         topMenu: [
-            { label: "dashboard", sref: "dashboard", icon: "cube" },
-            { label: "best position", sref: "bestposition.list", icon: "cube" },
+            // { label: "dashboard", sref: "dashboard", icon: "cube" },
+            // { label: "best position", sref: "bestposition.list", icon: "cube" },
         ]
 
     }
 
     return {
-
-        sideMenu: {
-
-            change: function ( group ) {
-                if ( group ) {
-                    currentSideKey = group;
-                } else {
-                    switch ( userRing ) {
-                        case 1:
-                            currentSideKey = 'adminMenu';
-                            break;
-                        case 3:
-                            currentSideKey = 'dashMenu';
-
-                    }
-                }
-
-                $rootScope.$broadcast( 'CHANGE_SIDEMENU', sideMenuGroups[ currentSideKey ] || [] );
-
-            },
-
-            getMenu: function () {
-                if ( currentSideKey )
-                    return sideMenuGroups[ currentSideKey ];
-
-                return [];
-            }
-        },
 
         topMenu: {
 
@@ -107,25 +86,17 @@ app.controller( 'redirectController', [ '$state', 'user', function ( $state, use
     // TODO think about removing the individual dashbaords and just add tiles to one unified dash
 
 
-    if ( user.isAdmin ) {
-        $state.go( 'admin.dashboard' );
-    }
+    //right now there is only one dashboard...
 
-    else if ( user.isSponsor ) {
-        $state.go( 'sponsor.dashboard' );
-    }
+    $state.go('dashboard');
 
-    else if ( user.isOwner ) {
-        $state.go( 'owner.dashboard' );
-    }
-
-    else if ( user.isManager ) {
-        $state.go( 'manager.dashboard' );
-    }
-
-    else {
-        $state.go( 'user.dashboard' );
-    }
+    // if ( user.isAdmin ) {
+    //     $state.go( 'admin.dashboard' );
+    // }
+    //
+    // else {
+    //     $state.go( 'user.dashboard' );
+    // }
 
 
 } ] );

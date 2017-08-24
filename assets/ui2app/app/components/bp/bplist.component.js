@@ -32,9 +32,9 @@ app.component( 'bpList', {
                     <thead>
                     <tr>
                         <th>Carrier</th>
-                        <th>Channel No.</th>
+                        <th>Entry Type</th>
+                        <th>Event Type</th>
                         <th>Network</th>
-                        <th>Lineup ID</th>
                         <th>Program ID</th>
                         <th>Widget Ex Zone</th>
                         <th>Crawler Ex Zone</th>
@@ -43,9 +43,12 @@ app.component( 'bpList', {
                     <tbody>
                     <tr ng-repeat="bp in $ctrl.bps | orderBy: 'channelNumber' | filter:searchTerm">
                         <td>{{bp.carrier}}</td>
-                        <td>{{ bp.channelNumber }}</td>
+                        <td>{{ bp.entryType || '?' }}</td>
+                        <td>{{ bp.eventType || '?' }}</td>
+
+                        <!--<td>{{ bp.channelNumber }}</td>-->
                         <td>{{ bp.network }}</td>
-                        <td>{{ bp.lineupID }}</td>
+                        <!--<td>{{ bp.lineupID }}</td>-->
                         <td>{{ bp.programID }}</td>
                         <td>{{ bp.widgetLocation | json }}</td>
                         <td>{{ bp.crawlerLocation | json }}</td>
@@ -53,7 +56,7 @@ app.component( 'bpList', {
                         <td>
                             <a ui-sref="bestposition.edit({ id: bp.id })" style="margin-right: 10px;"
                                class="btn btn-thin btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;EDIT</a>
-                            <button class="btn btn-thin btn-danger" ng-click="$ctrl.delelte(bp)" ng-if="$ctrl.user.isAdmin"><i class="fa fa-times-circle"
+                            <button class="btn btn-thin btn-danger" ng-click="$ctrl.delete(bp)" ng-if="$ctrl.user.isAdmin"><i class="fa fa-times-circle"
                                                                                             aria-hidden="true"></i>&nbsp;DELETE
                             </button>
                         </td>

@@ -4,15 +4,16 @@
       <h1><i class="fa fa-sliders" aria-hidden="true" style="color: #999999"></i>&nbsp;Edit Best Position</h1>
 
       <form name="bestPositionForm" ng-submit="submitForm(userForm.$valid)" novalidate>
-
+        <h3>Entry Type</h3>
+        <div class="btn-group">
+          <label class="btn btn-success" ng-model="bestposition.entryType" uib-btn-radio="'network default'" uncheckable>Default for Network</label>
+          <label class="btn btn-success" ng-model="bestposition.entryType" uib-btn-radio="'show'" uncheckable>Specific Show</label>
+          <label class="btn btn-success" ng-model="bestposition.entryType" uib-btn-radio="'event on network'" uncheckable>Event Type on Network</label>
+        </div>
         <br>
-        <div class="form-group">
-          <label for="carrier">Carrier:</label>
-            <select id="carrier" name= "carrier" ng-model="bestposition.carrier">
-            <option>Direct TV AT&T</option>
-            <option>Comcast</option>
-            <option>Dish</option></select><br>
-      </div>
+        <h3>Carrier <select id="carrier" name="carrier" ng-model="bestposition.carrier">
+          <option ng-repeat="c in carrierChoices">{{ c }}</option>
+        </select></h3>
 
         <div class="form-group" ng-class="{ 'has-error' : bestPositionForm.channelNumber.$invalid && bestPositionForm.channelNumber.$touched }">
           <label for="channelNumber">Channel Number:</label>
@@ -34,19 +35,19 @@
           <p ng-show="bestPositionForm.lineupID.$invalid && bestPositionForm.lineupID.$touched" class="help-block">Lineup ID required.</p>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-error' : bestPositionForm.programID.$invalid && bestPositionForm.programID.$touched }">
+        <div ng-if="bestposition.entryType==='show'" class="form-group" ng-class="{ 'has-error' : bestPositionForm.programID.$invalid && bestPositionForm.programID.$touched }">
           <label for="programID">Program ID:</label>
           <input type="text" class="form-control" name="programID" id="programID" ng-model="bestposition.programID" placeholder="Program ID" required>
           <!--<p ng-show="bestposition.programID.$error.required">Program ID required.</p>-->
           <p ng-show="bestPositionForm.programID.$invalid && bestPositionForm.programID.$touched" class="help-block">Program ID required.</p>
         </div>
 
-        <div class="form-group" ng-class="{ 'has-error' : bestPositionForm.postalCode.$invalid && bestPositionForm.postalCode.$touched }">
-          <label for="postalCode">Postal Code:</label>
-          <input type="text" class="form-control" ng-maxlength="5" name="postalCode" id="postalCode" ng-model="bestposition.postalCode" placeholder="Postal Code" required>
-          <!--<p ng-show="bestposition.postalCode.$error.required">Postal Code required.</p>-->
-          <p ng-show="(bestPositionForm.postalCode.$invalid && bestPositionForm.postalCode.$touched) || bestPositionForm.postalCode.$error.maxlength" class="help-block">Postal Code required must be valid number no more than 5 digits.</p>
-        </div>
+        <!--<div class="form-group" ng-class="{ 'has-error' : bestPositionForm.postalCode.$invalid && bestPositionForm.postalCode.$touched }">-->
+          <!--<label for="postalCode">Postal Code:</label>-->
+          <!--<input type="text" class="form-control" ng-maxlength="5" name="postalCode" id="postalCode" ng-model="bestposition.postalCode" placeholder="Postal Code" required>-->
+          <!--&lt;!&ndash;<p ng-show="bestposition.postalCode.$error.required">Postal Code required.</p>&ndash;&gt;-->
+          <!--<p ng-show="(bestPositionForm.postalCode.$invalid && bestPositionForm.postalCode.$touched) || bestPositionForm.postalCode.$error.maxlength" class="help-block">Postal Code required must be valid number no more than 5 digits.</p>-->
+        <!--</div>-->
 
         <div id="widgetLocation">
           <label for="widgetLocation"> Widget exclusions zones: </label><br>

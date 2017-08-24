@@ -26,8 +26,18 @@ module.exports = {
             type: 'string'
         },
 
-        postalCode: {
+        seriesID: {
             type: 'string'
+        },
+
+        entryType: {
+            type: 'string',
+            enum: [ 'network default', 'show', 'event on network']
+        },
+
+        eventType: {
+            type: 'string',
+            enum: [ 'baseball', 'basketball', 'soccer', 'hockey', 'football', 'golf' ]
         },
 
         //this is going to be an array of percentages of width and height

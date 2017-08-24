@@ -23,16 +23,14 @@ app.controller('bpEditController', function($scope, $log, toastr, $state, bp){
 
     $log.debug('loaded bpEditController');
 
-    // important information that will be converted to a JSON
-
     $scope.bestposition = bp;
+
+    $scope.carrierChoices = [ "DirecTV", "Dish", "Comcast" ];
 
     $scope.postThisBestPosition = function(){
         $log.debug("Post that shizzz");
 
-        if ( $scope.bestposition.carrier && $scope.bestposition.channelNumber && $scope.bestposition.network && $scope.bestposition.lineupID && $scope.bestposition.programID && $scope.bestposition.postalCode){
-            // it's a valid post
-            //stripFalseLocations();
+
             $scope.bestposition.save()
                 .then( function(bp){
                     toastr.success("Your Best Position was Saved, Sparky ! :)");
@@ -42,10 +40,7 @@ app.controller('bpEditController', function($scope, $log, toastr, $state, bp){
                     toastr.error(err.message);
                 });
 
-        } else {
-            toastr.error("Please fill in all of the following fields.");
 
-        }
     };
     //
     // var stripFalseLocations = function(){

@@ -183,3 +183,65 @@ app.factory( "sailsCoreModel", function ( sailsApi ) {
 
 
 } );
+
+
+app.factory( "sailsCoreModel2", function ( sailsApi ) {
+
+    class CoreModel {
+
+        constructor(params) {
+            this.parseCore(params);
+        }
+
+        parseCore ( json ) {
+            this.createdAt = json && json.createdAt;
+            this.updatedAt = json && json.updatedAt;
+            this.id = json && json.id;  // this will end up undefined for new models, which is what we want!
+        }
+
+        update ( params ) {
+            return sailsApi.updateModel( this.modelType, this.id, params || this.getPostObj() );
+        }
+
+        create () {
+            return sailsApi.createModel( this.modelType, this.getPostObj() );
+        }
+
+        delete() {
+            return sailsApi.deleteModel( this.modelType, this.id );
+        }
+
+        save() {
+            if ( this.id ) return this.update();
+            return this.create();
+        }
+
+        refresh() {
+            return sailsApi.getModel( this.modelType, this.id );
+        }
+
+        cloneUsingFields ( fields ) {
+
+            const clone = {};
+            fields.forEach( function ( field ) {
+                // Special syntax to pull dbid from object, or pass thru if already string dbId
+                if ( field.startsWith( '@id:' ) ) {
+                    field = field.replace( '@id:', '' );
+                    clone[ field ] = sailsApi.idFromIdOrObj( this[ field ] );
+                } else {
+                    clone[ field ] = this[ field ];
+                }
+
+            }, this ); // 'this' as second parameter makes sure 'this' is not global window 'this' in loop.
+
+            return clone;
+        }
+
+    }
+
+    return {
+        CoreModel: CoreModel
+    }
+
+
+} );

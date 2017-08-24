@@ -58,7 +58,7 @@ module.exports = function cacheLineupsHook(sails) {
                 .query({lineupID: lineup.lineupID, api_key: sails.config.tvmedia.api_key, start: startTime, timezone: sails.config.tvmedia.timezone})
                 .then( function (res) {
                   // TODO validate JSON
-                  fs.writeFile("./cache/" + lineup.lineupID, JSON.stringify(res.body), function (err) {
+                  fs.writeFile("./cache/" + lineup.lineupID + '.json', JSON.stringify(res.body), function (err) {
                     if (err) {
                       return cb(err);
                     }

@@ -58,6 +58,10 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
         .state( 'bestposition.list', {
             url:         '/list',
             component: 'bpList',
+            sideMenu: [
+                { label: "Home", sref: "dashboard", icon: "home" },
+                { label: "New BP", sref: "bestposition.edit({ id: 'new'})", icon: 'cube' }
+            ],
             resolve:     {
                 bps: function ( sailsBestPosition ) {
                     return sailsBestPosition.getAll();
@@ -111,12 +115,12 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
             url:       '/userlist',
             component: 'userList',
             sideMenu:  [
-                { label: 'Home', sref: "welcome", icon: "home" },
+                { label: 'Home', sref: "dashboard", icon: "home" },
                 { label: "Add User", sref: "admin.edituser({id: 'new'})", icon: "user" }
             ],
             resolve:   {
-                users:   function ( sailsUsers ) {
-                    return sailsUsers.getAll();
+                users:   function ( sailsUsers2 ) {
+                    return sailsUsers2.getAll();
                 },
                 heading: function () { return "All Users" }
             }
@@ -127,7 +131,7 @@ app.config( function ( $stateProvider, $urlRouterProvider ) {
             templateUrl: '/ui2app/app/components/admin/edituser.partial.html',
             controller:  'adminUserEditController',
             sideMenu:    [
-                { label: 'Home', sref: "welcome", icon: "home" },
+                { label: 'Home', sref: "dashboard", icon: "home" },
                 { label: "All Users", sref: "admin.userlist", icon: "users" },
                 { label: "Add User", sref: "admin.edituser({id: 'new'})", icon: "user" }
             ],

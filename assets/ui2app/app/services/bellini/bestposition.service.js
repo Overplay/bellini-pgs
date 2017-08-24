@@ -3,57 +3,56 @@
  */
 
 
-app.factory( "sailsBestPosition", function ( sailsApi, sailsCoreModel, userAuthService ) {
+app.factory( "sailsBestPosition", function ( sailsApi, sailsCoreModel2 ) {
 
 
-    var getAll = function ( queryString ) {
+    const getAll = function ( queryString ) {
         return sailsApi.getModels( 'bestPosition', queryString )
             .then( function ( bps ) {
                 return bps.map( newBestPosition ); //TODO: write this method
             } )
     };
 
-    var CoreModel = sailsCoreModel.CoreModel;
 
-    function ModelBestPositionObject( json ) {
+    class ModelBestPositionObject extends sailsCoreModel2.CoreModel {
 
-        CoreModel.call( this );
+        constructor(params){
+            super(params);
+            this.modelType = 'bestPosition';
+            this.parseInbound(params);
+        }
 
-        this.modelType = 'bestPosition';
-
-        this.parseInbound = function ( json ) {
+        parseInbound( json ) {
             this.carrier = json && json.carrier || '';
             this.channelNumber = json && json.channelNumber || '';
             this.network = json && json.network;
             this.lineupID = json && json.lineupID || '';
             this.programID = json && json.programID || '';
-            this.postalCode = json && json.postalCode || '';
+            this.seriesID = json && json.seriesID || '';
+            this.entryType = json && json.entryType || 'show';
+            this.eventType = json && json.eventType || '';
+
             this.widgetLocation = json && json.widgetLocation || {};
             this.crawlerLocation = json && json.crawlerLocation || {};
 
-            this.parseCore( json );
         };
 
-        this.getPostObj = function () {
-            var fields = [ 'carrier', 'channelNumber', 'network', 'lineupID', 'programID', 'postalCode', 'widgetLocation', 'crawlerLocation' ];
+        getPostObj() {
+            const fields = [ 'carrier', 'channelNumber', 'network', 'lineupID', 'programID', 'seriesID', 'entryType',
+                'eventType', 'widgetLocation', 'crawlerLocation' ];
             return this.cloneUsingFields( fields );
         };
 
-
-        this.parseInbound( json );
     }
 
-    ModelBestPositionObject.prototype = Object.create( CoreModel.prototype );
-    ModelBestPositionObject.prototype.constructor = ModelBestPositionObject;
 
-
-    var newBestPosition = function ( params ) {
+    const newBestPosition = function ( params ) {
         return new ModelBestPositionObject( params );
     }
 
-    var getBestPosition = function ( id ) {
+    const getBestPosition = function ( id ) {
 
-        if ( id == 'new' )
+        if ( id === 'new' )
             return newBestPosition( { } );
 
         return sailsApi.getModel( 'bestPosition', id )
@@ -65,7 +64,11 @@ app.factory( "sailsBestPosition", function ( sailsApi, sailsCoreModel, userAuthS
     return {
         getAll:            getAll,
         new:               newBestPosition,
-        get:               getBestPosition
+        get:               getBestPosition,
+        selections: {
+            entryType: [ 'network default', 'show', 'event on network' ],
+            eventType: [ 'baseball', 'basketball', 'soccer', 'hockey', 'football', 'golf' ]
+        }
     }
 
 } );

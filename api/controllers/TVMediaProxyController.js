@@ -62,7 +62,7 @@ module.exports = {
       return res.badRequest({ error: "Missing lineupID" });
     }
 
-    fs.readFile('./cache/' + params.id, 'utf8', function (err, data) {
+    fs.readFile('./cache/' + params.id + '.json', 'utf8', function (err, data) {
       if (err) {
         if (err.code = "ENOENT")
           return res.notFound({ error : "Cache file for lineup " + params.id + " could not be found"});

@@ -65,7 +65,21 @@ module.exports.bootstrap = function ( cb ) {
             );
     });
 
+    Lineup.findOne( { lineupID: '5266D' } )
+        .then( function ( lup ) {
+            if ( !lup ) {
+                Lineup.create( { lineupID: '5266D' } )
+                    .then( function ( l ) {
+                        sails.log.debug( 'Installed default lineup: 5266D' );
+                    } )
+            } else {
+                sails.log.debug( 'Default lineup existed: 5266D' );
+
+            }
+        } );
+
     sails.config.testdata.install();
+
 
     sails.log.debug( "Bootstrapping SAILS done" );
 

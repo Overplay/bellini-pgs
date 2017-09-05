@@ -73,7 +73,7 @@ module.exports = function cacheLineupsHook(sails) {
             }, function (err) {
               if (err) {
                 sails.log.error("Lineup not updated" + err.message);
-                setTimeout(sails.hooks.cachelineupshook.catch, 1000 * 60 * 5) // retry in five minutes
+                setTimeout(sails.hooks.cachelineupshook.cache, 1000 * 60 * 5) // retry in five minutes
               }
               else {
                 sails.log.debug("Lineups cached");

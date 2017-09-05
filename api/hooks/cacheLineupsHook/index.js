@@ -39,28 +39,33 @@ module.exports = function cacheLineupsHook(sails) {
 
       fs.mkdir("./cache", function (err) {
         if (err && err.code === "EEXIST")
-          sails.log.debug("cache already exists");
+          sails.log.debug("cache folder already exists");
         else if (err) {
-          sails.log.error("Error creating cache");
+          sails.log.error("Error creating cache folder");
           return null;
         }
         else
-          sails.log.debug("cache created");
+          sails.log.debug("cache folder created");
 
         Lineup.find({})
           .then( function (lineups) {
 
             async.eachSeries(lineups, function (lineup, cb) {
               var startTime = moment().subtract(30, 'minutes').toISOString();
-
+              sails.log.debug("Issuing request to get lineup: " + lineup.lineupID);
               request
                 .get(sails.config.tvmedia.url + '/lineups/' + lineup.lineupID + '/listings/grid')
                 .query({lineupID: lineup.lineupID, api_key: sails.config.tvmedia.api_key, start: startTime, timezone: sails.config.tvmedia.timezone})
                 .then( function (res) {
                   // TODO validate JSON
-                  fs.writeFile("./cache/" + lineup.lineupID + '.json', JSON.stringify(res.body), function (err) {
+                    sails.log.debug( "Received lineup for: " + lineup.lineupID );
+
+
+                    fs.writeFile("./cache/" + lineup.lineupID + '.json', JSON.stringify(res.body), function (err) {
                     if (err) {
-                      return cb(err);
+                        sails.log.error( "Error saving lineup for: " + lineup.lineupID );
+                        sails.log.error( err.message );
+                        return cb(err);
                     }
                     sails.log.debug('Lineup ' + lineup.lineupID + " cached");
                     return cb();
